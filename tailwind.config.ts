@@ -20,7 +20,7 @@ const config = {
 			themes: {
 				preset: [
 					// Enable 'enhancements' per each registered theme:
-					{ name: 'wintry', enhancements: true }
+					{ name: 'crimson', enhancements: true }
 				]
 			}
 		})

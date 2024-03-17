@@ -1,6 +1,7 @@
 import type { Grid, Row, Game, Cell } from './types';
+import { randomizer } from './utils';
 
-const newCell = (alive = true): Cell => {
+const newCell = (alive = false): Cell => {
 	return alive;
 };
 
@@ -24,13 +25,31 @@ const newGrid = (xSize: number, ySize: number): Grid => {
 	return grid;
 };
 
-export const newGame = (): Game => {
-	const game: Game = { rules: newRules(), grid: newGrid(16, 16), generation: 0, gameOver: false };
+const newEmptyGrid = (xSize: number, ySize: number): Grid => {
+	const grid: Grid = [];
+	for (let i = 0; i < ySize; i++) {
+		const row: Row = [];
+		for (let j = 0; j < xSize; j++) {
+			row.push(newCell());
+		}
+		grid.push(row);
+	}
+	return grid;
+};
+
+export const newGame = (x: number, y: number): Game => {
+	const game: Game = { rules: newRules(), grid: newGrid(x, y), generation: 0, gameOver: false };
 	return game;
 };
 
-const randomizer = () => {
-	return Math.random() > 0.5;
+export const newEmptyGame = (x: number, y: number): Game => {
+	const game: Game = {
+		rules: newRules(),
+		grid: newEmptyGrid(x, y),
+		generation: 0,
+		gameOver: false
+	};
+	return game;
 };
 
 export const nextGeneration = (game: Game): Game => {
