@@ -1,7 +1,7 @@
 import type { Cell, Grid, Row } from './types';
 
 export const randomizer = () => {
-	return Math.random() > 0.5;
+	return Math.random() > 0.8;
 };
 
 export const newCell = (alive = false): Cell => {
