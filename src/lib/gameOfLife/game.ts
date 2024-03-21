@@ -1,4 +1,4 @@
-import type { Game, Cell } from './types';
+import type { Game, Cell, Rules } from './types';
 import { getAdjacentCells, newEmptyGrid, newGrid, newRules } from './utils';
 
 export const newGame = (x: number, y: number): Game => {
@@ -6,7 +6,7 @@ export const newGame = (x: number, y: number): Game => {
 	return game;
 };
 
-export const newEmptyGame = (x: number, y: number): Game => {
+export const newEmptyGame = (x: number, y: number, rules: Rules): Game => {
 	const game: Game = {
 		rules: newRules(),
 		grid: newEmptyGrid(x, y),

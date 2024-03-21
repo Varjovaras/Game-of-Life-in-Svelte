@@ -1,4 +1,4 @@
-import type { Cell, Grid, Row } from './types';
+import type { Cell, Grid, Row, Rules } from './types';
 
 export const randomizer = () => {
 	return Math.random() > 0.8;
@@ -8,7 +8,7 @@ export const newCell = (alive = false): Cell => {
 	return alive;
 };
 
-export const newRules = () => {
+export const newRules = (): Rules => {
 	return {
 		underpopulation: 1,
 		overpopulation: 4,
@@ -61,4 +61,10 @@ export const getAdjacentCells = (grid: Grid, x: number, y: number): Cell[] => {
 	}
 
 	return adjacentCells;
+};
+
+export const ruleMaximums: Rules = {
+	underpopulation: 8,
+	overpopulation: 8,
+	reproduction: 8
 };

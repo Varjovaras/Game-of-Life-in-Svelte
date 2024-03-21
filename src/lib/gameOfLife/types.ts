@@ -15,3 +15,9 @@ export type Game = {
 	generation: number;
 	gameOver: boolean;
 };
+
+export type GridDetails = {
+	x: number;
+	y: number;
+	max: number;
+};

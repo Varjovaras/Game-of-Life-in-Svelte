@@ -1,23 +1,31 @@
 <script lang="ts">
 	import { newEmptyGame, newGame, nextGeneration } from '$lib/gameOfLife/game';
+	import type { GridDetails, Rules } from '$lib/gameOfLife/types';
+	import { ruleMaximums } from '$lib/gameOfLife/utils';
 	import { RangeSlider } from '@skeletonlabs/skeleton';
 
-	const gridDetails = {
+	const gridDetails: GridDetails = {
 		x: 20,
 		y: 10,
-		max: 60
+		max: 240
+	};
+
+	const rules: Rules = {
+		underpopulation: 1,
+		overpopulation: 4,
+		reproduction: 3
 	};
 
 	let isPlaying = false;
 	// biome-ignore lint/suspicious/noConfusingLabels: svelte tag
-	$: game = newEmptyGame(gridDetails.x, gridDetails.y);
+	$: game = newEmptyGame(gridDetails.x, gridDetails.y, rules);
 
 	const randomizeGrid = () => {
 		game = newGame(gridDetails.x, gridDetails.y);
 	};
 
 	const resetGrid = () => {
-		game = newEmptyGame(gridDetails.x, gridDetails.y);
+		game = newEmptyGame(gridDetails.x, gridDetails.y, rules);
 		isPlaying = false;
 	};
 
@@ -36,56 +44,100 @@
 	};
 </script>
 
-<div class="flex min-h-screen flex-col justify-center">
-	<div class="container mx-auto space-y-8 overflow-auto p-8 text-center">
+<div class="flex min-h-screen flex-col overflow-auto">
+	<div class="mx-auto space-y-8 p-8 text-center">
 		<h1 class="h1">Game of <span class="text-green-400">life</span> Simulator</h1>
 		<button class="variant-filled btn" on:click={randomizeGrid}>random board</button>
 		<button class="variant-filled btn" on:click={resetGrid}>reset grid</button>
 		<button class="variant-filled btn" on:click={play}>play game</button>
 
-		<div class="space-x-0 space-y-0">
-			{#each game.grid as row, x}
-				<div class="flex justify-center">
-					{#each row as cell, y}
-						<button
-							style="padding:0; margin:0; border:none; box-sizing: border-box; line-height: 1;"
-							on:click={() => toggleCell(x, y)}
-						>
-							{cell ? '🟩' : '⬛'}
-						</button>
-					{/each}
-				</div>
-			{/each}
-
-			<p>
-				generation {game.generation}
-			</p>
-			<div class="justify-center px-12">
-				<RangeSlider
-					name="range-slider"
-					bind:value={gridDetails.x}
-					on:change={randomizeGrid}
-					max={gridDetails.max}
-					step={1}
-				>
-					<div class="flex items-center justify-between">
-						<div class="font-bold">x axis</div>
-						<div class="text-xs">{gridDetails.x} / {gridDetails.max}</div>
+		<div class="flex flex-col overflow-auto">
+			<div>
+				{#each game.grid as row, x}
+					<div class="flex justify-center text-center">
+						{#each row as cell, y}
+							<button
+								style="padding:0; margin:0; border:none; box-sizing: border-box; line-height: 1;"
+								on:click={() => toggleCell(x, y)}
+							>
+								{cell ? '🟩' : '⬛'}
+							</button>
+						{/each}
 					</div>
-				</RangeSlider>
-				<RangeSlider
-					name="range-slider"
-					bind:value={gridDetails.y}
-					on:change={randomizeGrid}
-					max={gridDetails.max}
-					step={1}
-				>
-					<div class="flex items-center justify-between">
-						<div class="font-bold">y axis</div>
-						<div class="text-xs">{gridDetails.y} / {gridDetails.max}</div>
-					</div>
-				</RangeSlider>
+				{/each}
 			</div>
+		</div>
+		<p>
+			generation {game.generation}
+		</p>
+		<div class="grid grid-cols-2 gap-x-8 px-8 pt-6">
+			<RangeSlider
+				name="range-slider"
+				bind:value={gridDetails.x}
+				on:change={randomizeGrid}
+				min={2}
+				max={gridDetails.max}
+				step={1}
+			>
+				<div class="">
+					<div class="">x axis</div>
+					<div class="text-xs">{gridDetails.x} / {gridDetails.max}</div>
+				</div>
+			</RangeSlider>
+			<RangeSlider
+				name="range-slider"
+				bind:value={gridDetails.y}
+				on:change={randomizeGrid}
+				min={2}
+				max={gridDetails.max}
+				step={1}
+			>
+				<div class="">
+					<div class="">y axis</div>
+					<div class="text-xs">{gridDetails.y} / {gridDetails.max}</div>
+				</div>
+			</RangeSlider>
+		</div>
+		<div class="grid grid-cols-3 gap-x-4 px-8">
+			<RangeSlider
+				name="range-slider"
+				bind:value={gridDetails.x}
+				on:change={randomizeGrid}
+				min={1}
+				max={ruleMaximums.underpopulation}
+				step={1}
+			>
+				<div class="">
+					<div class=""></div>
+					<div class="text-xs"></div>
+				</div>
+			</RangeSlider>
+			<RangeSlider
+				name="range-slider"
+				bind:value={gridDetails.x}
+				on:change={randomizeGrid}
+				min={1}
+				max={ruleMaximums.overpopulation}
+				step={1}
+			>
+				<div class="">
+					<div class=""></div>
+					<!-- <div class="text-xs">{gridDetails.x} / {gridDetails.max}</div> -->
+				</div>
+			</RangeSlider>
+			<RangeSlider
+				name="range-slider"
+				bind:value={gridDetails.x}
+				on:change={randomizeGrid}
+				min={1}
+				max={ruleMaximums.reproduction}
+				step={1}
+			>
+				<div class="">
+					<div class=""></div>
+					<!-- <div class="text-xs">{gridDetails.x} / {gridDetails.max}</div> -->
+				</div>
+			</RangeSlider>
 		</div>
 	</div>
 </div>
