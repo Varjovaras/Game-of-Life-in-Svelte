@@ -44,7 +44,7 @@
 	};
 </script>
 
-<div class="flex min-h-screen flex-col overflow-auto">
+<div class=" h-auto w-auto overflow-x-auto overflow-y-auto">
 	<div class="mx-auto space-y-8 p-8 text-center">
 		<h1 class="h1">Game of <span class="text-green-400">life</span> Simulator</h1>
 		<button class="variant-filled btn" on:click={randomizeGrid}>random board</button>
@@ -60,7 +60,8 @@
 								style="padding:0; margin:0; border:none; box-sizing: border-box; line-height: 1;"
 								on:click={() => toggleCell(x, y)}
 							>
-								{cell ? '🟩' : '⬛'}
+								<!-- {cell ? '🟩' : '⬛'} -->
+								{cell ? 'Ö' : '_'}
 							</button>
 						{/each}
 					</div>
