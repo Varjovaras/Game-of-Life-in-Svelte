@@ -7,6 +7,7 @@ export type Rules = {
 	underpopulation: number;
 	overpopulation: number;
 	reproduction: number;
+	speed: number;
 };
 
 export type Game = {
@@ -19,5 +20,6 @@ export type Game = {
 export type GridDetails = {
 	x: number;
 	y: number;
-	max: number;
+	xMax: number;
+	yMax: number;
 };

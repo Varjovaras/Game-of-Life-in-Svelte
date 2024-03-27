@@ -7,13 +7,15 @@
 	const gridDetails: GridDetails = {
 		x: 20,
 		y: 10,
-		max: 240
+		xMax: 40,
+		yMax: 20
 	};
 
 	const rules: Rules = {
 		underpopulation: 1,
 		overpopulation: 4,
-		reproduction: 3
+		reproduction: 3,
+		speed: 100
 	};
 
 	let isPlaying = false;
@@ -36,7 +38,7 @@
 			if (isPlaying) {
 				play();
 			}
-		}, 100);
+		}, game.rules.speed);
 	};
 
 	const toggleCell = (x: number, y: number) => {
@@ -44,24 +46,29 @@
 	};
 </script>
 
-<div class=" h-auto w-auto overflow-x-auto overflow-y-auto">
-	<div class="mx-auto space-y-8 p-8 text-center">
+<div class="flex justify-center p-8 text-center">
+	<div class="mx-auto space-y-8">
 		<h1 class="h1">Game of <span class="text-green-400">life</span> Simulator</h1>
 		<button class="variant-filled btn" on:click={randomizeGrid}>random board</button>
 		<button class="variant-filled btn" on:click={resetGrid}>reset grid</button>
 		<button class="variant-filled btn" on:click={play}>play game</button>
 
-		<div class="flex flex-col overflow-auto">
+		<div class="flex flex-col">
 			<div>
 				{#each game.grid as row, x}
-					<div class="flex justify-center text-center">
+					<div class="flex justify-center text-xs md:text-base">
 						{#each row as cell, y}
 							<button
 								style="padding:0; margin:0; border:none; box-sizing: border-box; line-height: 1;"
 								on:click={() => toggleCell(x, y)}
 							>
-								<!-- {cell ? '🟩' : '⬛'} -->
-								{cell ? 'Ö' : '_'}
+								{#if cell}
+									<div>🟩</div>
+									<!-- <div>Ö</div> -->
+								{:else}
+									<div>⬛</div>
+									<!-- <div>_</div> -->
+								{/if}
 							</button>
 						{/each}
 					</div>
@@ -71,31 +78,31 @@
 		<p>
 			generation {game.generation}
 		</p>
-		<div class="grid grid-cols-2 gap-x-8 px-8 pt-6">
+		<div class="grid grid-cols-2 gap-x-8 px-8">
 			<RangeSlider
-				name="range-slider"
+				name="range-slider for x-axis"
 				bind:value={gridDetails.x}
 				on:change={randomizeGrid}
 				min={2}
-				max={gridDetails.max}
+				max={gridDetails.xMax}
 				step={1}
 			>
 				<div class="">
 					<div class="">x axis</div>
-					<div class="text-xs">{gridDetails.x} / {gridDetails.max}</div>
+					<div class="text-xs">{gridDetails.x} / {gridDetails.xMax}</div>
 				</div>
 			</RangeSlider>
 			<RangeSlider
-				name="range-slider"
+				name="range-slider for y-axis"
 				bind:value={gridDetails.y}
 				on:change={randomizeGrid}
 				min={2}
-				max={gridDetails.max}
+				max={gridDetails.yMax}
 				step={1}
 			>
 				<div class="">
 					<div class="">y axis</div>
-					<div class="text-xs">{gridDetails.y} / {gridDetails.max}</div>
+					<div class="text-xs">{gridDetails.y} / {gridDetails.yMax}</div>
 				</div>
 			</RangeSlider>
 		</div>
